@@ -5,12 +5,21 @@ import java.util.HashMap;
 import java.util.Map;
 public class Supermarket {
  
- private List<Client> Clients;
- private List<Invoice> invoices;
- private List<Staffcard> Staffcards;
+    private List<Product> products;
+    private List<Client> Clients;
+    private List<Staffmember> StaffMembers;
+    private List<Staffcard> Staffcards;
+    private List<Invoice> invoices;
+    private HashMap<String, Integer> product = new HashMap<>();
 
-
-
+public Supermarket() {
+        this.products = new ArrayList<>();
+        this.Clients = new ArrayList<>();
+        this.StaffMembers = new ArrayList<>();
+        this.Staffcards = new ArrayList<>();
+        this.invoices = new ArrayList<>();
+    }
+ 
 
 
 }
