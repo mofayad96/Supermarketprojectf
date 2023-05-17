@@ -98,5 +98,8 @@ public int sellProduct(Product product, int quantity, Client client,Staffmember 
         }
         return discount;
     }
+  private boolean isGolden(Client client) {
+        return LocalDate.now().minusYears(5).isAfter(client.getStartDate());
+    }
 
 }
