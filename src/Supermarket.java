@@ -33,6 +33,13 @@ public Supermarket() {
     public void removeInvoices(Invoice invoice) {
         this.invoices.remove(invoice);
     }
+ public void addStaffmember(Staffmember staffmember) {
+        this.StaffMembers.add(staffmember);
+    }
+
+    public void removeStaffmembers(Staffmember staffmember) {
+        this.StaffMembers.remove(staffmember);
+    }
 
 
 }
