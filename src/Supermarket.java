@@ -26,6 +26,13 @@ public Supermarket() {
     public void removeProduct(Product product) {
         this.products.remove(product);
     }
+ public void addInvoices(Invoice invoice) {
+        this.invoices.add(invoice);
+    }
+
+    public void removeInvoices(Invoice invoice) {
+        this.invoices.remove(invoice);
+    }
 
 
 }
