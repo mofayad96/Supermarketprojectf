@@ -75,4 +75,9 @@ public class Product {
         this.quantity = quantity;
 
     }
+        private boolean isGolden(Client client) {
+        return LocalDate.now().minusYears(5).isAfter(client.getStartDate());
+    }
 }
+
+
