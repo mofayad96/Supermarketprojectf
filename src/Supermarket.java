@@ -7,6 +7,7 @@ public class Supermarket {
  
  private List<Client> Clients;
  private List<Invoice> invoices;
+ private List<Staffcard> Staffcards;
 
 
 
