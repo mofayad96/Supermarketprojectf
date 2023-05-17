@@ -84,5 +84,19 @@ public int sellProduct(Product product, int quantity, Client client,Staffmember 
         client.setPurchaseAmountInMonth(client.getPurchaseAmountInMonth() + (int) (soldQuantity * product.getSellPrice()));
         return soldQuantity;
     }
+ double calculateDiscount(double initialPrice, Client client, Product product) {
+        double discount = 0;
+        if (isGolden(client)) {
+            if (LocalDate.now().equals(client.getBirthday())) {
+                discount = initialPrice * 0.1;
+            } else if (product.getName().equals(client.getFavProduct())) {
+                discount = initialPrice * 0.2;
+            } else {
+                discount = initialPrice * 0.02;
+            }
+
+        }
+        return discount;
+    }
 
 }
