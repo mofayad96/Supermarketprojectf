@@ -48,6 +48,21 @@ public Supermarket() {
         this.Staffcards.remove(staffcard);
     }
  
+public int sellProduct(Product product, int quantity, Client client,Staffmember staffmember,PointOfSale pointOfSale) {
+        if (product.getQuantity() < quantity) {
+            System.out.println("Sorry, " + product.getName() + " is out of stock.");
+            return product.getQuantity();
+        }
 
+        if (LocalDate.now().isAfter(product.getExpirationDate())) {
+            System.out.println("Sorry, " + product.getName() + " is expired.");
+            return 0;
+        }
+
+        {
+
+            double initialPrice = product.getSellPrice() * quantity;
+        double discount = calculateDiscount(initialPrice, client, product);
+        double finalPrice = initialPrice - discount;
 
 }
