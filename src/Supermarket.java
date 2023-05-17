@@ -19,7 +19,13 @@ public Supermarket() {
         this.Staffcards = new ArrayList<>();
         this.invoices = new ArrayList<>();
     }
- 
+ public void addproduct(Product product) {
+        this.products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        this.products.remove(product);
+    }
 
 
 }
