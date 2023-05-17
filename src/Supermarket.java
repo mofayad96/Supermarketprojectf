@@ -40,6 +40,14 @@ public Supermarket() {
     public void removeStaffmembers(Staffmember staffmember) {
         this.StaffMembers.remove(staffmember);
     }
+ public void addStaffcard(Staffcard staffcard) {
+        this.Staffcards.add(staffcard);
+    }
+
+    public void removeStaffcard(Staffcard staffcard) {
+        this.Staffcards.remove(staffcard);
+    }
+ 
 
 
 }
