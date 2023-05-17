@@ -61,8 +61,28 @@ public int sellProduct(Product product, int quantity, Client client,Staffmember 
 
         {
 
-            double initialPrice = product.getSellPrice() * quantity;
+        double initialPrice = product.getSellPrice() * quantity;
         double discount = calculateDiscount(initialPrice, client, product);
         double finalPrice = initialPrice - discount;
+
+            Invoice invoice = new Invoice(LocalDate.now().toString(), LocalDate.now().toString(), initialPrice, finalPrice, discount, staffmember.getId(), pointOfSale.getId(), quantity);
+            addInvoices(invoice);
+
+        System.out.println("Sold " + quantity + " units of " + product.getName() + " to " + client.getName() + ".");
+        System.out.println("Initial Price: " + initialPrice + " L.E.");
+        System.out.println("Discount: " + discount + " L.E.");
+        System.out.println("Final Price: " + finalPrice + " L.E.");
+        System.out.println("point of sale ID: "+pointOfSale.getId()+" || "+"Location: "+pointOfSale.getLocation());
+        System.out.println("Staffmember ID :"+staffmember.getId());
+        System.out.println("Thank you for using our store ☺");
+    }
+
+
+    int soldQuantity = quantity;
+
+        product.setQuantity(product.getQuantity() - soldQuantity);
+        client.setPurchaseAmountInMonth(client.getPurchaseAmountInMonth() + (int) (soldQuantity * product.getSellPrice()));
+        return soldQuantity;
+    }
 
 }
