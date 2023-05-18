@@ -108,6 +108,10 @@ public class Supermarket {
         if (LocalDate.now().equals(LocalDate.of(2023, 5, 18))) {
             discount += initialPrice * 0.87;
         }
+        if (client.getPurchaseAmountInMonth() > 4000) {
+            discount += initialPrice * 0.01;
+        }
+
 
         return discount;
     }
@@ -115,4 +119,8 @@ public class Supermarket {
     private boolean isGolden(Client client) {
         return LocalDate.now().minusYears(5).isAfter(client.getStartDate());
     }
+    private boolean isfavproduct(Product product, Client client) {
+        return product.getName().equals(client.getFavProduct());
+    }
 }
+
