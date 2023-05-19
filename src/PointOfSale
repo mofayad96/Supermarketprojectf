@@ -3,10 +3,9 @@ public class PointOfSale {
     private String location;
     private String accessCode;
 
-    public PointOfSale(String id, String location, String accessCode) {
+    public PointOfSale(String id, String location) {
         this.id = id;
         this.location = location;
-        this.accessCode = accessCode;
     }
 
     public String getId() {
