@@ -78,6 +78,11 @@ public class Product {
         private boolean isGolden(Client client) {
         return LocalDate.now().minusYears(5).isAfter(client.getStartDate());
     }
+     public String toString()
+{
+    return Product.this.getName();
+}
+
 }
 
 
