@@ -8,6 +8,7 @@ public class Supermarket {
     private List<Staffmember> StaffMembers;
     private List<Staffcard> Staffcards;
     private List<Invoice> invoices;
+    private List <PointOfSale>pointOfSales;
 
     public Supermarket() {
         this.products = new ArrayList<>();
@@ -15,6 +16,7 @@ public class Supermarket {
         this.StaffMembers = new ArrayList<>();
         this.Staffcards = new ArrayList<>();
         this.invoices = new ArrayList<>();
+        this.pointOfSales=new ArrayList<>();
     }
 
     public void addproduct(Product product) {
@@ -57,42 +59,75 @@ public class Supermarket {
     public void removeInvoices(Invoice invoice) {
         this.invoices.remove(invoice);
     }
+    public void addpointofsale(PointOfSale pointOfSale) {
+        this.pointOfSales.add(pointOfSale);
+    }
+    public void removepointofsale(PointOfSale pointOfSale) {
+        this.pointOfSales.remove(pointOfSale);
+    }
 
-    public int sellProduct(Product product, int quantity, Client client, Staffmember staffmember, PointOfSale pointOfSale) {
-        if (product.getQuantity() < quantity) {
-            System.out.println("Sorry, " + product.getName() + " is out of stock.");
-            return product.getQuantity();
-        }
 
-        if (LocalDate.now().isAfter(product.getExpirationDate())) {
-            System.out.println("Sorry, " + product.getName() + " is expired.");
+
+    public int sellProduct(List<Product> products, List<Integer> quantities, Client client, Staffmember staffmember, PointOfSale pointOfSale) {
+        if (products.size() != quantities.size()) {
+            System.out.println("Error: The number of products and quantities does not match.");
             return 0;
         }
 
-        int soldQuantity = quantity;
-        product.setQuantity(product.getQuantity() - soldQuantity);
-        if (product.getQuantity() < 10) {
-            System.out.println("Alert: The quantity of " + product.getName() + " is now less than 10.");
+        int totalSoldQuantity = 0;
+        double totalInitialPrice = 0.0;
+        double totalDiscount = 0.0;
+
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            int quantity = quantities.get(i);
+
+            if (product.getQuantity() < quantity) {
+                System.out.println("Sorry, " + product.getName() + " is out of stock.");
+                continue;
+            }
+
+            if (LocalDate.now().isAfter(product.getExpirationDate())) {
+                System.out.println("Sorry, " + product.getName() + " is expired.");
+                continue;
+            }
+
+            totalSoldQuantity += quantity;
+            double initialPrice = product.getSellPrice() * quantity;
+            double discount = calculateDiscount(initialPrice, client, product);
+
+            totalInitialPrice += initialPrice;
+            totalDiscount += discount;
+
+            product.setQuantity(product.getQuantity() - quantity);
+
+            if (product.getQuantity() < 10) {
+                System.out.println("Alert: The quantity of " + product.getName() + " is now less than 10.");
+            }
         }
 
-        double initialPrice = product.getSellPrice() * quantity;
-        double discount = calculateDiscount(initialPrice, client, product);
-        double finalPrice = initialPrice - discount;
-
-        Invoice invoice = new Invoice(LocalDate.now().toString(), LocalDate.now().toString(), initialPrice, finalPrice, discount, staffmember.getId(), pointOfSale.getId(), quantity);
+        double finalPrice = totalInitialPrice - totalDiscount;
+        Invoice invoice = new Invoice(LocalDate.now().toString(), LocalDate.now().toString(), totalInitialPrice, finalPrice, totalDiscount, staffmember.getId(), pointOfSale.getId(), totalSoldQuantity, products, quantities);
         addInvoices(invoice);
 
-        System.out.println("Sold " + quantity + " units of " + product.getName() + " to " + client.getName() + ".");
-        System.out.println("Initial Price: " + initialPrice + " L.E.");
-        System.out.println("Discount: " + discount + " L.E.");
+        System.out.println("Items sold to " + client.getName() + ":");
+        for (int i = 0; i < products.size(); i++) {
+            Product product = products.get(i);
+            int quantity = quantities.get(i);
+            System.out.println(quantity + " units of " + product.getName());
+        }
+
+        System.out.println("Initial Price: " + totalInitialPrice + " L.E.");
+        System.out.println("Discount: " + totalDiscount + " L.E.");
         System.out.println("Final Price: " + finalPrice + " L.E.");
-        System.out.println("point of sale ID: " + pointOfSale.getId() + " || " + "Location: " + pointOfSale.getLocation());
-        System.out.println("Staffmember ID :" + staffmember.getId());
+        System.out.println("Point of sale ID: " + pointOfSale.getId() + " || Location: " + pointOfSale.getLocation());
+        System.out.println("Staffmember ID: " + staffmember.getId());
         System.out.println("Thank you for using our store ☺");
-        product.setQuantity(product.getQuantity() - soldQuantity);
-        client.setPurchaseAmountInMonth(client.getPurchaseAmountInMonth() + (int) (soldQuantity * product.getSellPrice()));
-        return soldQuantity;
+
+        client.setPurchaseAmountInMonth(client.getPurchaseAmountInMonth() + (int) (totalSoldQuantity * totalInitialPrice));
+        return totalSoldQuantity;
     }
+
     double calculateDiscount(double initialPrice, Client client, Product product) {
         double discount = 0;
         if (isGolden(client)) {
@@ -123,4 +158,5 @@ public class Supermarket {
         return product.getName().equals(client.getFavProduct());
     }
 }
+
 
