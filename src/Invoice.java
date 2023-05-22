@@ -1,4 +1,7 @@
-private String transactionDate;
+import java.util.List;
+
+public class Invoice {
+    private String transactionDate;
     private String transactiontime;
     private double price;
     private double totalfinalprice;
@@ -8,7 +11,7 @@ private String transactionDate;
     private double sold_products;
 
 
-    public Invoice(String transactionDate, String transactiontime, double price, double totalfinalprice, double totalinitialprice, String id_stuff, String id_points_sale, double sold_products)
+    public Invoice(String transactionDate, String transactiontime, double price, double totalfinalprice, double totalinitialprice, String id_stuff, String id_points_sale, double sold_products, List<Product> products, List<Integer> quantities)
     {
         this.transactionDate = transactionDate;
         this.transactiontime = transactiontime;
@@ -69,7 +72,6 @@ private String transactionDate;
     public void setId_stuff(String id_stuff) {
         this.id_stuff = id_stuff;
     }
-
     public String getId_points_sale() {
         return id_points_sale;
     }
@@ -87,3 +89,4 @@ private String transactionDate;
     }
 
 }
+
